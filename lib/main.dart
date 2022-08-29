@@ -1,17 +1,87 @@
+// ignore_for_file: file_names, equal_keys_in_map
 import 'package:flutter/material.dart';
+import 'constants/colors.dart';
+import 'widgets/drawer.dart';
+// import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'subpages/about.dart';
+import 'subpages/add.dart';
+import 'subpages/search.dart';
+import 'routes/routes.dart';
 
-void main() {
-  runApp(const MyApp());
+Future main() async {
+  // dotenv.load(fileName: ".env");
+  runApp(MaterialApp(
+    title: 'Park Paws',
+    initialRoute: '/',
+    routes: {
+      '/': (context) => const MyApp(),
+      '/about': (context) => const AboutPage(),
+      '/add': (context) => const AddPage(),
+      '/search': (context) => const SearchPage(),
+    },
+  ));
+}
+
+class AppTheme {
+  //
+  AppTheme._();
+
+  static final ThemeData lightTheme = ThemeData(
+    fontFamily: 'Quicksand',
+    scaffoldBackgroundColor: Colors.white,
+    appBarTheme: const AppBarTheme(
+      color: AppColors.DARKREDACCENT,
+      iconTheme: IconThemeData(
+        color: Colors.white,
+      ),
+    ),
+    colorScheme: const ColorScheme.light(
+      primary: Colors.white,
+      onPrimary: Colors.white,
+      secondary: Colors.blue,
+    ),
+    cardTheme: const CardTheme(
+      color: Colors.blue,
+    ),
+    iconTheme: const IconThemeData(
+      color: AppColors.ORANGEPOP,
+    ),
+  );
+
+//   static final ThemeData darkTheme = ThemeData(
+//     fontFamily: 'Quicksand',
+//     scaffoldBackgroundColor: Colors.white,
+//     appBarTheme: const AppBarTheme(
+//       color: AppColors.secondaryColor,
+//       iconTheme: IconThemeData(
+//         color: Colors.black,
+//       ),
+//     ),
+//     colorScheme: const ColorScheme.light(
+//       primary: Colors.black,
+//       onPrimary: Colors.black,
+//       primaryVariant: Colors.black,
+//       secondary: Colors.red,
+//     ),
+//     cardTheme: const CardTheme(
+//       color: Colors.black,
+//     ),
+//     iconTheme: const IconThemeData(
+//       color: AppColors.fifthColor,
+//     ),
+//   );
+// }
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
-
+  static const String routeName = '/';
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
+      title: 'Park Paws',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -23,94 +93,91 @@ class MyApp extends StatelessWidget {
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
         primarySwatch: Colors.blueGrey,
+        fontFamily: 'Quicksand',
+        backgroundColor: AppColors.GREYBG,
+        primaryColor: AppColors.DARKREDACCENT,
       ),
-      home: const MyHomePage(title: 'Park Paws'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  // int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'Welcome to Park Paws!',
-            ),
-            Image.asset(
-              'assets/images/logo.png',
-              height: 200,
-              width: 200,
-            ),
-          ],
+      home: Scaffold(
+        backgroundColor: const Color(0xFFD9D9D9),
+        drawer: const AppDrawer(),
+        appBar: AppBar(
+          // Here we take the value from the MyHomePage object that was created by
+          // the App.build method, and use it to set our appbar title.
+          title: const Text("Park Paws"),
+          backgroundColor: AppColors.DARKREDACCENT,
+        ),
+        body: Center(
+          //background color
+          // Center is a layout widget. It takes a single child and positions it
+          // in the middle of the parent.
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              const Text(
+                'Welcome to Park Paws!',
+                style: TextStyle(
+                  fontSize: 30,
+                  fontFamily: 'Borsok',
+                ),
+                textAlign: TextAlign.center,
+              ),
+              Image.asset(
+                'assets/images/logogrey.png',
+                height: 300,
+                width: 300,
+              ),
+              Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    TextButton(
+                        style: TextButton.styleFrom(
+                          primary: AppColors.DARKREDACCENT,
+                          backgroundColor: AppColors.DARKORANGE,
+                        ),
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/search');
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: const [
+                            Icon(Icons.search, color: AppColors.MAINTEXTWHITE),
+                            Text('Search the doggy-base',
+                                style: TextStyle(
+                                    color: AppColors.MAINTEXTWHITE,
+                                    fontSize: 20)),
+                          ],
+                        )),
+                    TextButton(
+                        style: TextButton.styleFrom(
+                          primary: AppColors.DARKREDACCENT,
+                          backgroundColor: AppColors.DARKORANGE,
+                        ),
+                        onPressed: (() =>
+                            Navigator.pushNamed(context, AddPage.routeName)),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: const [
+                            Icon(Icons.add_circle,
+                                color: AppColors.MAINTEXTWHITE),
+                            Text('Add a doggy',
+                                style: TextStyle(
+                                    color: AppColors.MAINTEXTWHITE,
+                                    fontSize: 12)),
+                          ],
+                        )),
+                  ]),
+            ],
+          ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      // routes: {
+      //   Routes.add: (context) => const AddPage(),
+      //   Routes.about: (context) => const AboutPage(),
+      //   Routes.search: (context) => const SearchPage(),
+      //   Routes.home: (context) => const MyApp(),
+      // },
     );
   }
 }
