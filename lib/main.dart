@@ -48,7 +48,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  // int _counter = 0;
 
   void _incrementCounter() {
     setState(() {
@@ -98,7 +98,11 @@ class _MyHomePageState extends State<MyHomePage> {
             const Text(
               'Welcome to Park Paws!',
             ),
-            Image.asset(name: 'assets/images/logo.png'),
+            Image.asset(
+              'assets/images/logo.png',
+              height: 200,
+              width: 200,
+            ),
           ],
         ),
       ),
