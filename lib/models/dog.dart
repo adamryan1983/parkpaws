@@ -1,3 +1,7 @@
+import 'package:realm/realm.dart';
+
+part 'dog.g.dart';
+
 class DogModel {
   String name = "";
   String dob = "";

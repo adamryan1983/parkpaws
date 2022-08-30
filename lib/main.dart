@@ -6,7 +6,6 @@ import 'widgets/drawer.dart';
 import 'subpages/about.dart';
 import 'subpages/add.dart';
 import 'subpages/search.dart';
-import 'routes/routes.dart';
 
 Future main() async {
   // dotenv.load(fileName: ".env");
