@@ -130,7 +130,6 @@ class MyApp extends StatelessWidget {
                   children: <Widget>[
                     TextButton(
                         style: TextButton.styleFrom(
-                          primary: AppColors.DARKREDACCENT,
                           backgroundColor: AppColors.DARKORANGE,
                         ),
                         onPressed: () {
@@ -149,7 +148,6 @@ class MyApp extends StatelessWidget {
                         )),
                     TextButton(
                         style: TextButton.styleFrom(
-                          primary: AppColors.DARKREDACCENT,
                           backgroundColor: AppColors.DARKORANGE,
                         ),
                         onPressed: (() =>

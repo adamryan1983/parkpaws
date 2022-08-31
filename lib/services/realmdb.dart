@@ -7,3 +7,4 @@ class _Dog {
   String parent = "";
   String color = "";
   String photo = "";
+}
