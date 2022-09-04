@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>1455783023-ualh6faev4qei98c85eq6hjqdeknkaqn.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.1455783023-ualh6faev4qei98c85eq6hjqdeknkaqn</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBOLD54gAyputAWon57drxUNm4te1ggArA</string>
+	<key>GCM_SENDER_ID</key>
+	<string>1455783023</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.parkpaws</string>
+	<key>PROJECT_ID</key>
+	<string>parkpaws-9a9b0</string>
+	<key>STORAGE_BUCKET</key>
+	<string>parkpaws-9a9b0.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:1455783023:ios:4d14a34dc63ba8e107e19a</string>
+</dict>
+</plist>

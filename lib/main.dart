@@ -1,19 +1,28 @@
 // ignore_for_file: file_names, equal_keys_in_map
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'constants/colors.dart';
 import 'widgets/drawer.dart';
 // import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'subpages/about.dart';
 import 'subpages/add.dart';
 import 'subpages/search.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+import './error.dart';
+import 'controllers/DogListingController.dart';
 
 Future main() async {
   // dotenv.load(fileName: ".env");
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform
+  );
   runApp(MaterialApp(
     title: 'Park Paws',
     initialRoute: '/',
     routes: {
-      '/': (context) => const MyApp(),
+      '/': (context) => AppExtended(),
       '/about': (context) => const AboutPage(),
       '/add': (context) => const AddPage(),
       '/search': (context) => const SearchPage(),
@@ -46,35 +55,12 @@ class AppTheme {
       color: AppColors.ORANGEPOP,
     ),
   );
-
-//   static final ThemeData darkTheme = ThemeData(
-//     fontFamily: 'Quicksand',
-//     scaffoldBackgroundColor: Colors.white,
-//     appBarTheme: const AppBarTheme(
-//       color: AppColors.secondaryColor,
-//       iconTheme: IconThemeData(
-//         color: Colors.black,
-//       ),
-//     ),
-//     colorScheme: const ColorScheme.light(
-//       primary: Colors.black,
-//       onPrimary: Colors.black,
-//       primaryVariant: Colors.black,
-//       secondary: Colors.red,
-//     ),
-//     cardTheme: const CardTheme(
-//       color: Colors.black,
-//     ),
-//     iconTheme: const IconThemeData(
-//       color: AppColors.fifthColor,
-//     ),
-//   );
-// }
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  MyApp({Key? key}) : super(key: key);
   static const String routeName = '/';
+  DogListingController dogs = Get.find();
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -82,15 +68,6 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Park Paws',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
         primarySwatch: Colors.blueGrey,
         fontFamily: 'Quicksand',
         backgroundColor: AppColors.GREYBG,
@@ -102,7 +79,7 @@ class MyApp extends StatelessWidget {
         appBar: AppBar(
           // Here we take the value from the MyHomePage object that was created by
           // the App.build method, and use it to set our appbar title.
-          title: const Text("Park Paws"),
+          title: const Text("Park Paws", style: TextStyle(fontFamily: 'Borsok')),
           backgroundColor: AppColors.DARKREDACCENT,
         ),
         body: Center(
@@ -110,16 +87,18 @@ class MyApp extends StatelessWidget {
           // Center is a layout widget. It takes a single child and positions it
           // in the middle of the parent.
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
-              const Text(
-                'Welcome to Park Paws!',
-                style: TextStyle(
-                  fontSize: 30,
-                  fontFamily: 'Borsok',
-                ),
-                textAlign: TextAlign.center,
-              ),
+              // Container(
+              //   margin: const EdgeInsets.fromLTRB(2, 0, 2, 0),
+              // child:const Text(
+              //   'Welcome to Park Paws!',
+              //   style: TextStyle(
+              //     fontSize: 30,
+              //     fontFamily: 'Borsok',
+              //   ),
+              //   textAlign: TextAlign.center,
+              // )),
               Image.asset(
                 'assets/images/logogrey.png',
                 height: 300,
@@ -164,17 +143,59 @@ class MyApp extends StatelessWidget {
                                     fontSize: 12)),
                           ],
                         )),
+                        Text("$dogs.getAllDogs.length")
                   ]),
             ],
           ),
         ),
       ),
-      // routes: {
-      //   Routes.add: (context) => const AddPage(),
-      //   Routes.about: (context) => const AboutPage(),
-      //   Routes.search: (context) => const SearchPage(),
-      //   Routes.home: (context) => const MyApp(),
-      // },
     );
+  }
+}
+
+class AppExtended extends StatelessWidget {
+  // Create the initialization Future outside of `build`:
+  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
+  AppExtended({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      // Initialize FlutterFire:
+      future: _initialization,
+      builder: (context, snapshot) {
+        // Check for errors
+        if (snapshot.hasError) {
+          return const ErrorPage();
+        }
+
+        // Once complete, show your application
+        if (snapshot.connectionState == ConnectionState.done) {
+          print('successfully loaded db');
+          return MyApp();
+        }
+
+        // Otherwise, show something whilst waiting for initialization to complete
+        return Loading(key: UniqueKey());
+      },
+    );
+  }
+}
+
+class SomethingWentWrong extends StatelessWidget {
+  const SomethingWentWrong({required Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(home: Center(child: Text("Issue Loading.")));
+  }
+}
+
+class Loading extends StatelessWidget {
+  const Loading({required Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(home: Text("Loading up"));
   }
 }
