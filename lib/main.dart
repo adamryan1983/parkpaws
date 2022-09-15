@@ -1,34 +1,26 @@
-// ignore_for_file: file_names, equal_keys_in_map
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:parkpaws/controllers/dog_listing_controller.dart';
+import 'package:parkpaws/routes/routes.dart';
 import 'constants/colors.dart';
-import 'widgets/drawer.dart';
 // import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'subpages/about.dart';
-import 'subpages/add.dart';
-import 'subpages/search.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'error.dart';
 import 'firebase_options.dart';
-import './error.dart';
-import 'controllers/DogListingController.dart';
+
 
 Future main() async {
   // dotenv.load(fileName: ".env");
+  
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform
   );
-  runApp(MaterialApp(
-    title: 'Park Paws',
-    initialRoute: '/',
-    routes: {
-      '/': (context) => AppExtended(),
-      '/about': (context) => const AboutPage(),
-      '/add': (context) => const AddPage(),
-      '/search': (context) => const SearchPage(),
-    },
-  ));
+  final DogListingController dogAmount = Get.put(DogListingController());
+  runApp(AppExtended());
 }
+
+final _navigatorKey = GlobalKey<NavigatorState>();
 
 class AppTheme {
   //
@@ -57,102 +49,45 @@ class AppTheme {
   );
 }
 
+// class MyApp extends StatelessWidget {
+
+//   MyApp({Key? key}) : super(key: key);
+//   final _navigatorKey = GlobalKey<NavigatorState>();
+//   // This widget is the root of your application.
+//   @override
+//   Widget build(BuildContext context) {
+//     return ProviderScope(child:MaterialApp(
+//       // onGenerateRoute: Routes.routes,
+//       // navigatorKey: _navigatorKey,
+//       debugShowCheckedModeBanner: false,
+//       title: 'Park Paws',
+//       theme: ThemeData(
+//         primarySwatch: Colors.blueGrey,
+//         fontFamily: 'Quicksand',
+//         backgroundColor: AppColors.GREYBG,
+//         primaryColor: AppColors.DARKREDACCENT,
+//       ),
+//       home: const Home()
+//       )
+//     );
+//   }
+// }
+
 class MyApp extends StatelessWidget {
-  MyApp({Key? key}) : super(key: key);
-  static const String routeName = '/';
-  DogListingController dogs = Get.find();
-  // This widget is the root of your application.
+  const MyApp({super.key});
+  // final controller = Get.put(DogListingController());
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
+    return GetMaterialApp(
+      navigatorKey: _navigatorKey,
       title: 'Park Paws',
-      theme: ThemeData(
-        primarySwatch: Colors.blueGrey,
-        fontFamily: 'Quicksand',
-        backgroundColor: AppColors.GREYBG,
-        primaryColor: AppColors.DARKREDACCENT,
-      ),
-      home: Scaffold(
-        backgroundColor: const Color(0xFFD9D9D9),
-        drawer: const AppDrawer(),
-        appBar: AppBar(
-          // Here we take the value from the MyHomePage object that was created by
-          // the App.build method, and use it to set our appbar title.
-          title: const Text("Park Paws", style: TextStyle(fontFamily: 'Borsok')),
-          backgroundColor: AppColors.DARKREDACCENT,
-        ),
-        body: Center(
-          //background color
-          // Center is a layout widget. It takes a single child and positions it
-          // in the middle of the parent.
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              // Container(
-              //   margin: const EdgeInsets.fromLTRB(2, 0, 2, 0),
-              // child:const Text(
-              //   'Welcome to Park Paws!',
-              //   style: TextStyle(
-              //     fontSize: 30,
-              //     fontFamily: 'Borsok',
-              //   ),
-              //   textAlign: TextAlign.center,
-              // )),
-              Image.asset(
-                'assets/images/logogrey.png',
-                height: 300,
-                width: 300,
-              ),
-              Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    TextButton(
-                        style: TextButton.styleFrom(
-                          backgroundColor: AppColors.DARKORANGE,
-                        ),
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/search');
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
-                          children: const [
-                            Icon(Icons.search, color: AppColors.MAINTEXTWHITE),
-                            Text('Search the doggy-base',
-                                style: TextStyle(
-                                    color: AppColors.MAINTEXTWHITE,
-                                    fontSize: 20)),
-                          ],
-                        )),
-                    TextButton(
-                        style: TextButton.styleFrom(
-                          backgroundColor: AppColors.DARKORANGE,
-                        ),
-                        onPressed: (() =>
-                            Navigator.pushNamed(context, AddPage.routeName)),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
-                          children: const [
-                            Icon(Icons.add_circle,
-                                color: AppColors.MAINTEXTWHITE),
-                            Text('Add a doggy',
-                                style: TextStyle(
-                                    color: AppColors.MAINTEXTWHITE,
-                                    fontSize: 12)),
-                          ],
-                        )),
-                        Text("$dogs.getAllDogs.length")
-                  ]),
-            ],
-          ),
-        ),
-      ),
+      onGenerateRoute: Routes.generateRoute,
+      initialRoute: Routes.home,
+      theme: AppTheme.lightTheme,
     );
   }
 }
-
 class AppExtended extends StatelessWidget {
   // Create the initialization Future outside of `build`:
   final Future<FirebaseApp> _initialization = Firebase.initializeApp();
@@ -168,11 +103,10 @@ class AppExtended extends StatelessWidget {
         if (snapshot.hasError) {
           return const ErrorPage();
         }
-
         // Once complete, show your application
         if (snapshot.connectionState == ConnectionState.done) {
           print('successfully loaded db');
-          return MyApp();
+          return const MyApp();
         }
 
         // Otherwise, show something whilst waiting for initialization to complete

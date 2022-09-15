@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import '../routes/routes.dart';
 import '../constants/colors.dart';
-import '../subpages/search.dart';
-import '../subpages/about.dart';
-import '../subpages/add.dart';
+import 'package:parkpaws/routes/routes.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({Key? key}) : super(key: key);
@@ -18,35 +15,22 @@ class AppDrawer extends StatelessWidget {
         children: <Widget>[
           _createHeader(),
           _createDrawerItem(
-            icon: Icons.search,
-            text: 'Search doggy-base for dogs',
-            onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (BuildContext context) => const SearchPage()));
-            },
-          ),
+              icon: Icons.search,
+              text: 'Search doggy-base for dogs',
+              onTap: (() => Navigator.pushNamed(context, Routes.search))),
           _createDrawerItem(
-            icon: Icons.add,
-            text: 'Add a dog to the doggy-base',
-            onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (BuildContext context) => const AddPage()));
-            },
-          ),
+              icon: Icons.add,
+              text: 'Add a dog to the doggy-base',
+              onTap: (() => Navigator.pushNamed(context, Routes.add))),
           _createDrawerItem(
-            icon: Icons.add,
-            text: 'About The App',
-            onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (BuildContext context) => const AboutPage()));
-            },
-          ),
+              icon: Icons.info,
+              text: 'About The App',
+              onTap: (() => Navigator.pushNamed(context, Routes.about))),
           const Divider(),
           _createDrawerItem(
               icon: Icons.home,
               text: 'Home',
-              onTap: () =>
-                  Navigator.pushReplacementNamed(context, Routes.home)),
+              onTap: (() => Navigator.pushNamed(context, Routes.home)))
         ],
       ),
     ));
