@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -179,6 +177,7 @@ class ResultsPage extends StatelessWidget {
               Text("DOB: ${docs['dob']}"),
               Text("Owner: ${docs['parent']}"),
               Text("Site: ${docs['site']}"),
+              Text("Photo: ${docs['photo']}"),
             ],
           ),
           Column(
@@ -195,7 +194,7 @@ class ResultsPage extends StatelessWidget {
                     ); // image is ready
                     //return Text('data');
                   } else {
-                    return const Text('loading image'); // placeholder
+                    return const Text('...loading image'); // placeholder
                   }
                 },
               )
@@ -255,7 +254,7 @@ Future<String> loadImage(String filename) async {
 
   //select the image url
   Reference ref =
-      FirebaseStorage.instance.ref().child("dogs/").child(filename);
+      FirebaseStorage.instance.ref().child("dogs/").child('$filename.jpg');
 
   //get image url from firebase storage
   var url = await ref.getDownloadURL();

@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:1455783023:android:447050f08481d12807e19a",
         "android_client_info": {
-          "package_name": "com.example.parkpaws"
+          "package_name": "me.thisisadamryan.parkpaws"
         }
       },
       "oauth_client": [

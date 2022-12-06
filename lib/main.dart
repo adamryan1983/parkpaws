@@ -2,16 +2,31 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:parkpaws/controllers/dog_listing_controller.dart';
 import 'package:parkpaws/routes/routes.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
 import 'constants/colors.dart';
 // import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'error.dart';
 import 'firebase_options.dart';
+import 'dart:io' show Platform;
 
+final _configurationApple = 
+  PurchasesConfiguration('appl_gVSmHbxTBERfJPMNXSZYGNvOcFc');
+final _configurationAndroid = 
+  PurchasesConfiguration('goog_SZRdzfHWPflEkEIFfhpzizcRFqP');
 
 Future main() async {
   // dotenv.load(fileName: ".env");
+  // await Purchases.setDebugLogsEnabled(true);
   
+  PurchasesConfiguration configuration;
+  if (Platform.isAndroid) {
+    configuration = _configurationAndroid;
+    await Purchases.configure(configuration);
+  } else if (Platform.isIOS) {
+    configuration = _configurationApple;
+  }
+
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform
@@ -49,33 +64,10 @@ class AppTheme {
   );
 }
 
-// class MyApp extends StatelessWidget {
-
-//   MyApp({Key? key}) : super(key: key);
-//   final _navigatorKey = GlobalKey<NavigatorState>();
-//   // This widget is the root of your application.
-//   @override
-//   Widget build(BuildContext context) {
-//     return ProviderScope(child:MaterialApp(
-//       // onGenerateRoute: Routes.routes,
-//       // navigatorKey: _navigatorKey,
-//       debugShowCheckedModeBanner: false,
-//       title: 'Park Paws',
-//       theme: ThemeData(
-//         primarySwatch: Colors.blueGrey,
-//         fontFamily: 'Quicksand',
-//         backgroundColor: AppColors.GREYBG,
-//         primaryColor: AppColors.DARKREDACCENT,
-//       ),
-//       home: const Home()
-//       )
-//     );
-//   }
-// }
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
   // final controller = Get.put(DogListingController());
+  static const String supportTier = '123';
 
   @override
   Widget build(BuildContext context) {
@@ -105,7 +97,7 @@ class AppExtended extends StatelessWidget {
         }
         // Once complete, show your application
         if (snapshot.connectionState == ConnectionState.done) {
-          print('successfully loaded db');
+          // print('successfully loaded db');
           return const MyApp();
         }
 
