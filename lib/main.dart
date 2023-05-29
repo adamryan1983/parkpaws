@@ -2,36 +2,35 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:parkpaws/controllers/dog_listing_controller.dart';
 import 'package:parkpaws/routes/routes.dart';
-import 'package:purchases_flutter/purchases_flutter.dart';
 import 'constants/colors.dart';
 // import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'error.dart';
 import 'firebase_options.dart';
 import 'dart:io' show Platform;
-
-final _configurationApple = 
-  PurchasesConfiguration('appl_gVSmHbxTBERfJPMNXSZYGNvOcFc');
-final _configurationAndroid = 
-  PurchasesConfiguration('goog_SZRdzfHWPflEkEIFfhpzizcRFqP');
+import 'constants/store_config.dart' as sc;
+import 'constants/apikeys.dart';
 
 Future main() async {
   // dotenv.load(fileName: ".env");
-  // await Purchases.setDebugLogsEnabled(true);
-  
-  PurchasesConfiguration configuration;
-  if (Platform.isAndroid) {
-    configuration = _configurationAndroid;
-    await Purchases.configure(configuration);
-  } else if (Platform.isIOS) {
-    configuration = _configurationApple;
+  if (Platform.isIOS || Platform.isMacOS) {
+    sc.StoreConfig(
+      store: sc.Store.appleStore,
+      apiKey: appleApiKey,
+    );
+  } else if (Platform.isAndroid) {
+    sc.StoreConfig(
+      store: sc.Store.googlePlay,
+      apiKey: googleApiKey,
+    );
   }
-
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform
   );
   final DogListingController dogAmount = Get.put(DogListingController());
+
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(AppExtended());
 }
 
@@ -68,6 +67,7 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
   // final controller = Get.put(DogListingController());
   static const String supportTier = '123';
+  
 
   @override
   Widget build(BuildContext context) {
@@ -100,7 +100,6 @@ class AppExtended extends StatelessWidget {
           // print('successfully loaded db');
           return const MyApp();
         }
-
         // Otherwise, show something whilst waiting for initialization to complete
         return Loading(key: UniqueKey());
       },

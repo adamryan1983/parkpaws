@@ -10,10 +10,8 @@ class ErrorPage extends StatelessWidget {
     return MaterialApp(
         title: 'Park Paws!',
         theme: ThemeData(
-            primarySwatch: Colors.red,
             fontFamily: 'Work',
-            backgroundColor: AppColors.MAINBGWHITE,
-            primaryColor: AppColors.ORANGEPOP),
+            primaryColor: AppColors.ORANGEPOP, colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.red).copyWith(background: AppColors.MAINBGWHITE)),
         home: const ErrorPageExtended());
   }
 }

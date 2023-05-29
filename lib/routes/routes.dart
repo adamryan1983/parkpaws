@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import '../subpages/about.dart';
+import '../subpages/about2.dart';
 import '../subpages/add.dart';
 import '../subpages/search.dart';
 import '../subpages/home.dart';
+import '../subpages/purchase.dart';
 
 
 class Routes {
@@ -11,6 +12,7 @@ class Routes {
   static const String add = '/add';
   static const String search = '/search';
   static const String home = '/';
+  static const String purchase = '/purchase';
 
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -23,6 +25,8 @@ class Routes {
         return MaterialPageRoute(builder: (_) => Home());
       case search:
         return MaterialPageRoute(builder: (_) => const SearchPage());
+      case purchase:
+        return MaterialPageRoute(builder: (_) => const PurchaseTester());
       default:
         return MaterialPageRoute(
             builder: (_) => Scaffold(

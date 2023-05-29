@@ -44,10 +44,10 @@ class Home extends GetWidget {
                             ),
                             onPressed: (() =>
                                 Navigator.pushNamed(context, Routes.search)),
-                            child: Row(
+                            child: const Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               mainAxisSize: MainAxisSize.min,
-                              children: const [
+                              children: [
                                 Icon(Icons.search,
                                     color: AppColors.MAINTEXTWHITE),
                                 Text('Search the doggy-base',
@@ -62,10 +62,10 @@ class Home extends GetWidget {
                             ),
                             onPressed: (() =>
                                 Navigator.pushNamed(context, Routes.add)),
-                            child: Row(
+                            child: const Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               mainAxisSize: MainAxisSize.min,
-                              children: const [
+                              children: [
                                 Icon(Icons.add_circle,
                                     color: AppColors.MAINTEXTWHITE),
                                 Text('Add a doggy',

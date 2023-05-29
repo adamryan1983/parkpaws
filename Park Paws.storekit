@@ -1,0 +1,68 @@
+{
+  "identifier" : "75AFCF8F",
+  "nonRenewingSubscriptions" : [
+
+  ],
+  "products" : [
+    {
+      "displayPrice" : "0.99",
+      "familyShareable" : false,
+      "internalID" : "6444966483",
+      "localizations" : [
+        {
+          "description" : "Support the creator",
+          "displayName" : "Support Tier",
+          "locale" : "en_CA"
+        }
+      ],
+      "productID" : "parkpaws_support",
+      "referenceName" : "support_tier",
+      "type" : "NonConsumable"
+    }
+  ],
+  "settings" : {
+    "_applicationInternalID" : "1645796060",
+    "_developerTeamID" : "AB6G433JFF",
+    "_lastSynchronizedDate" : 692118801.25819397
+  },
+  "subscriptionGroups" : [
+    {
+      "id" : "21085327",
+      "localizations" : [
+
+      ],
+      "name" : "Support",
+      "subscriptions" : [
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "0.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "6444982735",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "Support the creator",
+              "displayName" : "Lifetime Support",
+              "locale" : "en_CA"
+            }
+          ],
+          "productID" : "pp_139_life",
+          "recurringSubscriptionPeriod" : "P1Y",
+          "referenceName" : "Support Lifetime Tier",
+          "subscriptionGroupID" : "21085327",
+          "type" : "RecurringSubscription"
+        }
+      ]
+    }
+  ],
+  "version" : {
+    "major" : 2,
+    "minor" : 0
+  }
+}

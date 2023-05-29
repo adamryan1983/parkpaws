@@ -30,18 +30,23 @@ class AppDrawer extends StatelessWidget {
           _createDrawerItem(
               icon: Icons.home,
               text: 'Home',
-              onTap: (() => Navigator.pushNamed(context, Routes.home)))
+              onTap: (() => Navigator.pushNamed(context, Routes.home))),
+          const Divider(),
+          _createDrawerItem(
+              icon: Icons.home,
+              text: 'Purchase',
+              onTap: (() => Navigator.pushNamed(context, Routes.purchase)))
         ],
       ),
     ));
   }
 
   Widget _createHeader() {
-    return SizedBox(
+    return const SizedBox(
         height: 150,
         child: DrawerHeader(
-            margin: const EdgeInsets.fromLTRB(4, 50, 4, 10),
-            decoration: const BoxDecoration(
+            margin: EdgeInsets.fromLTRB(4, 50, 4, 10),
+            decoration: BoxDecoration(
                 image: DecorationImage(
                     fit: BoxFit.scaleDown,
                     image: AssetImage(
