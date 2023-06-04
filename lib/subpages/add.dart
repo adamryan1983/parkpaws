@@ -55,12 +55,12 @@ class AddDogState extends State<AddDog> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Column(
                     children: [
                       const Padding(
-                        padding: EdgeInsets.fromLTRB(0, 50, 0, 0),
+                        padding: EdgeInsets.fromLTRB(0, 20, 0, 10),
                       ),
                       const Text('Add Doggy',
                           style: TextStyle(
@@ -78,7 +78,7 @@ class AddDogState extends State<AddDog> {
                     header: const Text('Dog Information'),
                     children: [
                       const SizedBox(
-                        height: 32,
+                        height: 35,
                       ),
                       Center(
                         child: GestureDetector(
@@ -113,22 +113,6 @@ class AddDogState extends State<AddDog> {
                           ),
                         ),
                       ),
-                      // SizedBox(
-                      //   width: 250,
-                      //   child: CupertinoFormRow(
-                      //     prefix: const Text('Dog Photo'),
-                      //     child: ElevatedButton(
-                      //       child: const Text("Upload Image",
-                      //           style: TextStyle(
-                      //               color: Colors.white,
-                      //               fontWeight: FontWeight.w300,
-                      //               fontSize: 15)),
-                      //       onPressed: () {
-                      //         // uploadImage();
-                      //       },
-                      //     ),
-                      //   ),
-                      // ),
                       SizedBox(
                         width: 350,
                         child: CupertinoFormRow(
@@ -200,30 +184,40 @@ class AddDogState extends State<AddDog> {
                       ),
                     ],
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      // Validate returns true if the form is valid, or false otherwise.
-                      if (_formKey.currentState!.validate()) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => OwnerInfo([
-                              _nameController.text.toLowerCase(),
-                              _ageController.text,
-                              _colorController.text.toLowerCase()
-                            ], _file),
-                          ),
-                        );
-                      }
-                    },
-                    child: const Text('Next'),
+                  const SizedBox(
+                    height: 40,
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      // Validate returns true if the form is valid, or false otherwise.
-                      Navigator.pushNamed(context, Routes.home);
-                    },
-                    child: const Text('Back'),
+                  Row(
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          // Validate returns true if the form is valid, or false otherwise.
+                          if (_formKey.currentState!.validate()) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => OwnerInfo([
+                                  _nameController.text.toLowerCase(),
+                                  _ageController.text,
+                                  _colorController.text.toLowerCase()
+                                ], _file),
+                              ),
+                            );
+                          }
+                        },
+                        child: const Text('Next'),
+                      ),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          // Validate returns true if the form is valid, or false otherwise.
+                          Navigator.pushNamed(context, Routes.home);
+                        },
+                        child: const Text('Back'),
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -236,14 +230,17 @@ class AddDogState extends State<AddDog> {
 
   chooseImage(choice) async {
     final imagePicker = ImagePicker();
+    XFile? image;
+
     //Check Permissions
     await Permission.photos.request();
-    var permissionStatus = await Permission.photos.status;
 
-    if (permissionStatus.isGranted) {
+    // var permissionStatus = await Permission.photos.status;
+    // permissionStatus.isGranted;
+
+    // if (permissionStatus.isGranted) {
       //Select Image
-      final XFile image = (await imagePicker.pickImage(source: choice))!;
-
+      image = (await imagePicker.pickImage(source: choice))!;
       // var file = File(image.path);
       File file = File(image.path);
       // image = XFile(image.path );
@@ -255,7 +252,7 @@ class AddDogState extends State<AddDog> {
           _file = file;
         },
       );
-    }
+    
   }
 
   void _showPicker(context) {
@@ -334,16 +331,12 @@ class _OwnerInfoState extends State<OwnerInfo> {
         key: _formKey,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Row(
+                Column(
                   children: [
-                    const Padding(
-                      padding: EdgeInsets.fromLTRB(0, 150, 0, 0),
-                    ),
                     const Text('Add Owner Info',
                         style: TextStyle(
                             fontSize: 30,
@@ -412,7 +405,6 @@ class _OwnerInfoState extends State<OwnerInfo> {
                     // Validate returns true if the form is valid, or false otherwise.
                     if (_formKey.currentState!.validate()) {
                       // If the form is valid, display a snackbar. In the real world,
-                      // you'd often call a server or save the information in a database.
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
                             content: Text('Checking your dog for fleas...')),
@@ -420,23 +412,33 @@ class _OwnerInfoState extends State<OwnerInfo> {
                       submitData();
                     }
                   },
-                  child: const Text('Submit'),
+                  child: const Text('Submit',
+                      style: TextStyle(color: Colors.red, fontSize: 20)),
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    // Validate returns true if the form is valid, or false otherwise.
-                    Navigator.pushNamed(context, Routes.add);
-                  },
-                  child:
-                      const Text('Back', style: TextStyle(color: Colors.red)),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    // Validate returns true if the form is valid, or false otherwise.
-                    Navigator.pushNamed(context, Routes.home);
-                  },
-                  child:
-                      const Text('Home', style: TextStyle(color: Colors.red)),
+                SizedBox(
+                  height: 100,
+                  width: 300,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          // Validate returns true if the form is valid, or false otherwise.
+                          Navigator.pop(context);
+                        },
+                        child: const Text('Back',
+                            style: TextStyle(color: Colors.red)),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          // Validate returns true if the form is valid, or false otherwise.
+                          Navigator.pushNamed(context, Routes.home);
+                        },
+                        child: const Text('Home',
+                            style: TextStyle(color: Colors.red)),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             )
@@ -450,7 +452,7 @@ class _OwnerInfoState extends State<OwnerInfo> {
     allData.addAll(widget.previousFields);
     allData.addAll(
         [_ownerNameController.text.toLowerCase(), _ownerSiteController.text]);
-    // print(allData);
+    print(allData);
     // Submit your data
     uploadFile(widget.file!.path, allData);
   }
@@ -470,69 +472,3 @@ class _OwnerInfoState extends State<OwnerInfo> {
     FirestoreDB().addNewDog(data);
   }
 }
-
-// TextFormField(
-                //   decoration: const InputDecoration(
-                //     border: UnderlineInputBorder(),
-                //     labelText: "Enter dog owner's name",
-                //   ),
-                //   // The validator receives the text that the user has entered.
-                //   validator: (value) {
-                //     if (value == null || value.isEmpty) {
-                //       return "Please enter dogs's owner name";
-                //     }
-                //     return null;
-                //   },
-                // ),
-                // TextFormField(
-                //   decoration: const InputDecoration(
-                //     border: UnderlineInputBorder(),
-                //     labelText: "Enter dog's age (in years)",
-                //   ),
-                //   // The validator receives the text that the user has entered.
-                //   validator: (value) {
-                //     if (value == null || value.isEmpty) {
-                //       return "Please enter dogs's age";
-                //     }
-                //     return null;
-                //   },
-                // ),
-                // TextFormField(
-                //   decoration: const InputDecoration(
-                //     border: UnderlineInputBorder(),
-                //     labelText: "Enter dog's color fur (dominant color)",
-                //   ),
-                //   // The validator receives the text that the user has entered.
-                //   validator: (value) {
-                //     if (value == null || value.isEmpty) {
-                //       return "Please enter dogs's fur color";
-                //     }
-                //     return null;
-                //   },
-                // ),
-                // TextFormField(
-                //   decoration: const InputDecoration(
-                //     border: UnderlineInputBorder(),
-                //     labelText: "Enter dog owner's site number",
-                //   ),
-                //   // The validator receives the text that the user has entered.
-                //   validator: (value) {
-                //     if (value == null || value.isEmpty) {
-                //       return "Please enter dog owner's site number";
-                //     }
-                //     return null;
-                //   },
-                // ),
-                // TextFormField(
-                //   decoration: const InputDecoration(
-                //     border: UnderlineInputBorder(),
-                //     labelText: "Upload a photo of your dog",
-                //   ),
-                //   // The validator receives the text that the user has entered.
-                //   validator: (value) {
-                //     if (value == null || value.isEmpty) {
-                //       return "Please upload a photo of your dog";
-                //     }
-                //     return null;
-                //   },
-                // ),

@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:parkpaws/controllers/dog_listing_controller.dart';
 import 'package:parkpaws/routes/routes.dart';
+import 'package:parkpaws/services/pay_provider.dart';
+import 'package:provider/provider.dart';
 import 'constants/colors.dart';
+import 'package:glassfy_flutter/glassfy_flutter.dart';
 // import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'error.dart';
@@ -11,8 +14,12 @@ import 'dart:io' show Platform;
 import 'constants/store_config.dart' as sc;
 import 'constants/apikeys.dart';
 
+import 'api/purchase_api.dart';
+
+
 Future main() async {
   // dotenv.load(fileName: ".env");
+
   if (Platform.isIOS || Platform.isMacOS) {
     sc.StoreConfig(
       store: sc.Store.appleStore,
@@ -25,6 +32,8 @@ Future main() async {
     );
   }
   WidgetsFlutterBinding.ensureInitialized();
+  await PurchaseApi.init();
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform
   );
@@ -71,13 +80,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
+    return ChangeNotifierProvider(
+      create: (context) => GlassfyProvider(),
+    child: GetMaterialApp(
       navigatorKey: _navigatorKey,
       title: 'Park Paws',
       onGenerateRoute: Routes.generateRoute,
       initialRoute: Routes.home,
       theme: AppTheme.lightTheme,
-    );
+    ),);
   }
 }
 class AppExtended extends StatelessWidget {

@@ -1,26 +1,30 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart';
-import 'package:purchases_flutter/purchases_flutter.dart';
+import 'package:glassfy_flutter/glassfy_flutter.dart';
+import 'package:glassfy_flutter/models.dart';
 
 class PurchaseApi {
 
-  static const _apiKey = '';
+  static const _apiKey = '519129fb4d89482d88e1a4de5cbf90e3';
 
-  static Future init() async {
-    await Purchases.setDebugLogsEnabled(true);
-    // ignore: deprecated_member_use
-    await Purchases.setup(_apiKey);
+  static Future<void> init() async {
+    await Glassfy.initialize(_apiKey, watcherMode: false);
   }
 
-  static Future<List<Offering>> fetchOffers() async {
+  static Future<List<GlassfyOffering>> fetchOffers() async {
     try {
-  final offerings = await Purchases.getOfferings();
-  final current = offerings.current;
-  
-  return current == null ? [] : [current];
-} on PlatformException catch (e) {
-  debugPrint('Error: $e');
-  return [];
-}
+      final offerings = await Glassfy.offerings();
+      return offerings.all ?? [];
+    } catch (e) {
+      debugPrint(e.toString());
+      return [];
+    }
+  } 
+
+  static Future<GlassfyTransaction?> purchaseSku(GlassfySku sku) async {
+    try {
+      return await Glassfy.purchaseSku(sku);
+    } catch (e) {
+      return null;
+    }
   }
 }

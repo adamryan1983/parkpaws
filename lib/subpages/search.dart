@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:parkpaws/controllers/dog_listing_controller.dart';
 import 'package:parkpaws/routes/routes.dart';
-import '../widgets/drawer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:parkpaws/constants/colors.dart';
 
@@ -13,12 +12,7 @@ class SearchPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        drawer: const AppDrawer(),
-        appBar: AppBar(
-          title: const Text("Search for Dog"),
-        ),
-        body: const Search());
+    return const Scaffold(body: Search());
   }
 }
 
@@ -44,70 +38,73 @@ class SearchState extends State<Search> {
         debugShowCheckedModeBanner: false,
         title: 'Park Paws',
         home: Scaffold(
-            body: Form(
-                key: _formKey,
-                child: Row(children: [
-                  Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[
-                        Column(
-                          children: [
-                            const Padding(
-                              padding: EdgeInsets.fromLTRB(0, 50, 0, 0),
-                            ),
-                            const Text('Find Doggy',
-                                style: TextStyle(
-                                    fontSize: 30,
-                                    fontFamily: 'Borsok',
-                                    color: AppColors.MAINTEXTBLACK)),
-                            Image.asset(
-                              'assets/images/dogheader1.png',
-                              height: 120,
-                              width: 120,
-                            ),
-                          ],
-                        ),
-                        CupertinoFormSection(
-                          header: const Text('Search Doggy-base for Dog Match'),
-                          children: [
-                            SizedBox(
-                              width: 350,
-                              child: CupertinoFormRow(
-                                prefix: const Text('Color'),
-                                child: CupertinoTextFormFieldRow(
-                                  decoration: BoxDecoration(
+          body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Container(
+              alignment: Alignment.center,
+              child: Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const Text('Find Doggy',
+                              style: TextStyle(
+                                  fontSize: 30,
+                                  fontFamily: 'Borsok',
+                                  color: AppColors.MAINTEXTBLACK)),
+                          Image.asset(
+                            'assets/images/dogheader1.png',
+                            height: 120,
+                            width: 120,
+                          ),
+                        ],
+                      ),
+                      CupertinoFormSection(
+                        header: const Text('Search Doggy-base for Dog Match'),
+                        children: [
+                          SizedBox(
+                            width: 350,
+                            child: CupertinoFormRow(
+                              prefix: const Text('Color'),
+                              child: CupertinoTextFormFieldRow(
+                                decoration: BoxDecoration(
+                                  color: Colors.black12,
+                                  border: Border.all(
                                     color: Colors.black12,
-                                    border: Border.all(
-                                      color: Colors.black12,
-                                    ),
-                                    borderRadius: BorderRadius.circular(8.0),
                                   ),
-                                  controller: _colorController,
-                                  placeholder: 'Enter the dog\'s color',
+                                  borderRadius: BorderRadius.circular(8.0),
                                 ),
+                                controller: _colorController,
+                                placeholder: 'Enter the dog\'s color',
                               ),
                             ),
-                            const Text('Or'),
-                            SizedBox(
-                              width: 350,
-                              child: CupertinoFormRow(
-                                prefix: const Text('Name'),
-                                child: CupertinoTextFormFieldRow(
-                                  decoration: BoxDecoration(
+                          ),
+                          const Text('Or'),
+                          SizedBox(
+                            width: 350,
+                            child: CupertinoFormRow(
+                              prefix: const Text('Name'),
+                              child: CupertinoTextFormFieldRow(
+                                decoration: BoxDecoration(
+                                  color: Colors.black12,
+                                  border: Border.all(
                                     color: Colors.black12,
-                                    border: Border.all(
-                                      color: Colors.black12,
-                                    ),
-                                    borderRadius: BorderRadius.circular(8.0),
                                   ),
-                                  controller: _nameController,
-                                  placeholder: 'Enter the dog\'s name',
+                                  borderRadius: BorderRadius.circular(8.0),
                                 ),
+                                controller: _nameController,
+                                placeholder: 'Enter the dog\'s name',
                               ),
                             ),
-                          ],
-                        ),
-                        Column(
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 150,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             ElevatedButton(
                               onPressed: () {
@@ -140,6 +137,7 @@ class SearchState extends State<Search> {
                               },
                               child: const Text('Search'),
                             ),
+                            const SizedBox(width: 15),
                             ElevatedButton(
                               onPressed: () {
                                 // Validate returns true if the form is valid, or false otherwise.
@@ -149,9 +147,12 @@ class SearchState extends State<Search> {
                             ),
                           ],
                         ),
-                        const Spacer(),
-                      ]),
-                ]))));
+                      ),
+                    ],
+                  )),
+            )
+          ]),
+        ));
   }
 }
 
@@ -251,10 +252,9 @@ class ResultsPage extends StatelessWidget {
 }
 
 Future<String> loadImage(String filename) async {
-
   //select the image url
   Reference ref =
-      FirebaseStorage.instance.ref().child("dogs/").child('$filename.jpg');
+      FirebaseStorage.instance.ref().child("dogs/$filename");
 
   //get image url from firebase storage
   var url = await ref.getDownloadURL();

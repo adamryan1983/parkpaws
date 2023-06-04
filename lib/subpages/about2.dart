@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:purchases_flutter/purchases_flutter.dart';
-import '../constants/apikeys.dart';
-import '../constants/store_config.dart';
+// import '../constants/apikeys.dart';
 import '../models/singletons_data.dart';
 import '../widgets/drawer.dart';
 import '../models/styles.dart';
-import '../widgets/paywall.dart';
 
-class AboutPage extends StatelessWidget {
-  static const String routeName = '/about';
+class AboutPage2 extends StatelessWidget {
+  static const String routeName = '/about2';
 
-  const AboutPage({Key? key}) : super(key: key);
+  const AboutPage2({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../subpages/about2.dart';
+import '../subpages/about.dart';
 import '../subpages/add.dart';
 import '../subpages/search.dart';
 import '../subpages/home.dart';
